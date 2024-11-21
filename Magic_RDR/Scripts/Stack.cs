@@ -1,4 +1,4 @@
-﻿using Magic_RDR;
+using Magic_RDR;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -278,7 +278,7 @@ namespace Magic_RDR
 			throw new Exception("Not a pointer item recieved");
 		}
 
-		private string PopPointerRef()
+		public string PopPointerRef()
 		{
 			StackValue val = Pop();
 			if (val.ItemType == StackValue.Type.Pointer)

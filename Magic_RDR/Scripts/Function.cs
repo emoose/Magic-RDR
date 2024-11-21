@@ -842,7 +842,7 @@ namespace Magic_RDR
 						case 116:
 						case 117: AddInstruction(curoff, new HLInstruction(CodeBlock[Offset], GetArray(1), curoff)); break;
 						default:
-							if (CodeBlock[Offset] <= 155)
+							if (CodeBlock[Offset] <= (int)Instruction.MakeVector)
 								AddInstruction(curoff, new HLInstruction(CodeBlock[Offset], curoff));
 							break;
 					}
@@ -1249,6 +1249,27 @@ namespace Magic_RDR
 				case Instruction.fPush_6:
 				case Instruction.fPush_7: Stack.Push(Instructions[Offset].GetImmFloatPush); break;
 
+				case Instruction.MakeVector:
+					{
+						string z, y, x;
+						z = Stack.PopLit();
+						y = Stack.PopLit();
+						x = Stack.PopLit();
+						Stack.Push($"Vec3({x}, {y}, {z})", Stack.DataType.Vector3);
+						break;
+					}
+				case Instruction.StoreVector:
+				case Instruction.StoreRef:
+					{
+						string pointer, value;
+						pointer = Stack.PopPointerRef();
+						value = Stack.PopLit();
+						WriteLine(Stack.setcheck(pointer, value));
+						break;
+					}
+				case Instruction.LoadRef: break; // TODO: what does LoadRef actualy do?
+
+				default: WriteLine($"{Instructions[Offset].Instruction}();"); break;
 				HandleJump:
 				CheckConditional();
 				break;
