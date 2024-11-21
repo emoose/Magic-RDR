@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;	  
 
 namespace Magic_RDR
@@ -84,16 +84,7 @@ namespace Magic_RDR
 			string native, nativetype = "";
 			bool isKnown = false;
 
-			if (NativeFile.HashDB.ContainsKey(hash))
-			{
-				native = NativeFile.HashDB[hash].ToUpper();
-			}
-			else
-			{
-				native = hash.ToString("X");
-				while (native.Length < 8) native = "0" + native;
-				native = "UNK_0x" + native;
-			}
+			native = NativeHashDB.GetName(hash);
 
 			string dec = (isKnown ? nativetype : Types.gettype(Natives[hash].Item1).returntype) + native + "(";
 			int max = Natives[hash].Item2.Length;

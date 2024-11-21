@@ -1,4 +1,4 @@
-﻿using Magic_RDR.Application;
+using Magic_RDR.Application;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,16 +24,8 @@ namespace Magic_RDR
 			{
 				nat = Reader.ReadUInt32();
 				_nativehash.Add(nat);
+				_natives.Add(NativeHashDB.GetName(nat));
 
-				if (NativeFile.HashDB.ContainsKey(nat))
-					_natives.Add(NativeFile.HashDB[nat].ToUpper());
-				else
-				{
-					string temps = nat.ToString("X");
-					while (temps.Length < 8)
-						temps = "0" + temps;
-					_natives.Add("UNK_0x" + temps);
-				}
 				count++;
 			}
 		}
