@@ -160,7 +160,7 @@ namespace Magic_RDR
 
         public FunctionName GetFunctionNameFromOffset(int offset, int opcode) //Gets the function info given the offset where its called from
 		{
-			int jPos = GetCallOffset(offset, opcode);
+			int jPos = GetCallOffset((ushort)offset, opcode);
 			if (Scriptfile.FunctionLoc.ContainsKey(jPos + 2))
 				return Scriptfile.FunctionLoc[jPos + 2];
 			else if (Scriptfile.FunctionLoc.ContainsKey(jPos))
@@ -169,11 +169,13 @@ namespace Magic_RDR
 				return null;
 		}
 
-		public Function GetFunctionFromOffset(int offset) //Gets the function info given the offset where its called from
+		public Function GetFunctionFromOffset(int offset, int opcode) //Gets the function info given the offset where its called from
 		{
+			int jPos = GetCallOffset((ushort)offset, opcode);
 			foreach (Function function in Scriptfile.Functions)
 			{
-				return function;
+				if (function.Location == jPos || function.Location == jPos + 2)
+					return function;
 			}
 			throw new Exception("Function wasn't found");
 		}
@@ -365,6 +367,13 @@ namespace Magic_RDR
 					goto startsw;
 				}
 			}
+
+			// some funcs contain a return opcode followed by a jump, usually right to the end of the current func
+			// if there was a return before this jump then ignore it
+			// TODO: this could have false positives if the return was jumped over as part of an if statement though...
+			if (Offset > 0 && Instructions[Offset - 1].IsReturnInstruction)
+				return;
+
 			int tempoff = 0;
 			if (Instructions[Offset + 1].Offset == Outerpath.EndOffset)
 			{
@@ -432,6 +441,9 @@ namespace Magic_RDR
 		{
 			if (Outerpath.Parent != null)
 			{
+				// TODO: unsure what is happening here, sometimes InstructionMap doesn't contain Outerpath.EndOffset?
+				if (!InstructionMap.ContainsKey(Outerpath.EndOffset))
+					return true;
 				if (InstructionMap[Outerpath.EndOffset] == Offset)
 				{
 					return true;
@@ -1829,7 +1841,7 @@ namespace Magic_RDR
 						case Instruction.Call2hE:
 						case Instruction.Call2hF:
 						case Instruction.Call2:
-							Function func = GetFunctionFromOffset(ins.GetOperandsAsInt);
+							Function func = GetFunctionFromOffset(ins.GetOperandsAsInt, (int)ins.Instruction);
 							if (!func.preDecodeStarted)
 							{
 								func.PreDecode();
