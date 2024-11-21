@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -872,8 +872,21 @@ namespace Magic_RDR
 
 			if (IsNewCodePath())
 			{
-                HandleNewPath();
-            }
+				HandleNewPath();
+			}
+
+			if (ScriptViewerForm.ShowRawDisassembly)
+			{
+				var opcode = Instructions[Offset].Instruction.ToString().PadRight(14, ' ');
+				var line = $"// #{Offset:D3} 0x{Location + Instructions[Offset].Offset:X04} = {opcode} : {((int)Instructions[Offset].Instruction):X2}";
+
+				foreach (var b in Instructions[Offset]._Operands)
+				{
+					line += $" {b:X2}";
+				}
+
+				WriteLine(line);
+			}
 
 			switch (Instructions[Offset].Instruction)
 			{

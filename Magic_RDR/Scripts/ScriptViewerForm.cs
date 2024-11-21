@@ -19,22 +19,34 @@ namespace Magic_RDR
 
         public static object ThreadLock;
         public static string DecompiledCode;
+        public static bool ShowRawDisassembly = false;
 
+        FileEntry _fileEntry;
         public ScriptViewerForm(TOCSuperEntry entry)
         {
             InitializeComponent();
+
+            _fileEntry = entry.Entry.AsFile;
+
+            btnShowRawDisassembly.Checked = ShowRawDisassembly;
+
+
             ThreadLock = new object();
             Text = string.Format("MagicRDR - Script Viewer [{0}]", entry.Entry.Name);
             FileName = entry.Entry.Name;
 
-            FileEntry file = entry.Entry.AsFile;
-            RPFFile.RPFIO.Position = file.GetOffset();
+            RPFFile.RPFIO.Position = _fileEntry.GetOffset();
 
-            byte[] fileData = ResourceUtils.ResourceInfo.GetDataFromResourceBytes(RPFFile.RPFIO.ReadBytes(file.SizeInArchive));
+            byte[] fileData = ResourceUtils.ResourceInfo.GetDataFromResourceBytes(RPFFile.RPFIO.ReadBytes(_fileEntry.SizeInArchive));
             Reader = new IOReader(new MemoryStream(fileData), (AppGlobals.Platform == AppGlobals.PlatformEnum.Switch) ? IOReader.Endian.Little : IOReader.Endian.Big);
-            Reader.BaseStream.Seek(file.FlagInfo.RSC85_ObjectStart, SeekOrigin.Begin);
 
-            ScriptFile script = new ScriptFile(Reader, file);
+            InitForm();
+        }
+
+        void InitForm()
+        {
+            Reader.BaseStream.Seek(_fileEntry.FlagInfo.RSC85_ObjectStart, SeekOrigin.Begin);
+            ScriptFile script = new ScriptFile(Reader, _fileEntry);
 
             try
             {
@@ -94,6 +106,13 @@ namespace Magic_RDR
 
             try { textBox.CloseBindingFile(); }
             catch { }
+        }
+
+        private void btnShowRawDisassembly_Click(object sender, EventArgs e)
+        {
+            ShowRawDisassembly = !ShowRawDisassembly;
+            btnShowRawDisassembly.Checked = ShowRawDisassembly;
+            InitForm();
         }
     }
 

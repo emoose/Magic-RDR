@@ -38,6 +38,7 @@ namespace Magic_RDR
             this.charCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoomLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnShowRawDisassembly = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.textBox)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -61,27 +62,29 @@ namespace Magic_RDR
         '\''};
             this.textBox.AutoIndentCharsPatterns = "\r\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\r\n^\\s*(case|default)\\s*[^:]" +
     "*(?<range>:)\\s*(?<range>[^;]+);\r\n";
-            this.textBox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.textBox.AutoScrollMinSize = new System.Drawing.Size(39, 25);
             this.textBox.BackBrush = null;
             this.textBox.BackColor = System.Drawing.SystemColors.Control;
             this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.textBox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-            this.textBox.CharHeight = 14;
-            this.textBox.CharWidth = 8;
+            this.textBox.CharHeight = 25;
+            this.textBox.CharWidth = 14;
             this.textBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.textBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.textBox.IsReplaceMode = false;
             this.textBox.Language = FastColoredTextBoxNS.Language.CSharp;
             this.textBox.LeftBracket = '(';
             this.textBox.LeftBracket2 = '{';
-            this.textBox.Location = new System.Drawing.Point(0, 28);
+            this.textBox.Location = new System.Drawing.Point(0, 49);
+            this.textBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.textBox.Name = "textBox";
             this.textBox.Paddings = new System.Windows.Forms.Padding(0);
             this.textBox.RightBracket = ')';
             this.textBox.RightBracket2 = '}';
             this.textBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.textBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("textBox.ServiceColors")));
-            this.textBox.Size = new System.Drawing.Size(811, 396);
+            this.textBox.Size = new System.Drawing.Size(1416, 690);
             this.textBox.TabIndex = 0;
             this.textBox.Zoom = 100;
             this.textBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.textBox_TextChanged);
@@ -91,11 +94,14 @@ namespace Magic_RDR
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportButton});
+            this.exportButton,
+            this.btnShowRawDisassembly});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(811, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(1419, 44);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -105,19 +111,21 @@ namespace Magic_RDR
             this.exportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.exportButton.Margin = new System.Windows.Forms.Padding(4, 4, 0, 2);
             this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(61, 19);
+            this.exportButton.Size = new System.Drawing.Size(104, 38);
             this.exportButton.Text = "Export";
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.charCountLabel,
             this.toolStripStatusLabel2,
             this.zoomLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 427);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 747);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(811, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 24, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1419, 39);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
@@ -125,31 +133,42 @@ namespace Magic_RDR
             // charCountLabel
             // 
             this.charCountLabel.Name = "charCountLabel";
-            this.charCountLabel.Size = new System.Drawing.Size(65, 17);
+            this.charCountLabel.Size = new System.Drawing.Size(112, 30);
             this.charCountLabel.Text = "CharCount";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(692, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1214, 30);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // zoomLabel
             // 
             this.zoomLabel.Name = "zoomLabel";
-            this.zoomLabel.Size = new System.Drawing.Size(39, 17);
+            this.zoomLabel.Size = new System.Drawing.Size(67, 30);
             this.zoomLabel.Text = "Zoom";
             this.zoomLabel.Click += new System.EventHandler(this.zoomLabel_Click);
             // 
+            // btnShowRawDisassembly
+            // 
+            this.btnShowRawDisassembly.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnShowRawDisassembly.Image = ((System.Drawing.Image)(resources.GetObject("btnShowRawDisassembly.Image")));
+            this.btnShowRawDisassembly.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowRawDisassembly.Name = "btnShowRawDisassembly";
+            this.btnShowRawDisassembly.Size = new System.Drawing.Size(232, 38);
+            this.btnShowRawDisassembly.Text = "Show Raw Disassembly";
+            this.btnShowRawDisassembly.Click += new System.EventHandler(this.btnShowRawDisassembly_Click);
+            // 
             // ScriptViewerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(168F, 168F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(811, 449);
+            this.ClientSize = new System.Drawing.Size(1419, 786);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.textBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "ScriptViewerForm";
             this.Text = "MagicRDR - Script Viewer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -173,5 +192,6 @@ namespace Magic_RDR
         private System.Windows.Forms.ToolStripStatusLabel charCountLabel;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel zoomLabel;
-    }
+		private System.Windows.Forms.ToolStripButton btnShowRawDisassembly;
+	}
 }

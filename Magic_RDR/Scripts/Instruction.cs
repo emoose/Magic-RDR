@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +8,7 @@ namespace Magic_RDR
 	{
 		private int _Offset;
 		private Instruction _Instruction;
-		private byte[] _Operands;
+		public readonly byte[] _Operands;
 
 		public HLInstruction(byte instruction, IEnumerable<byte> operands, int offset)
 		{
