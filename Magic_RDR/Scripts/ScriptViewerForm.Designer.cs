@@ -34,11 +34,12 @@ namespace Magic_RDR
             this.textBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.exportButton = new System.Windows.Forms.ToolStripButton();
+            this.btnShowRawDisassembly = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.charCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoomLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnShowRawDisassembly = new System.Windows.Forms.ToolStripButton();
+            this.btnShowNativeNamespaces = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.textBox)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -71,13 +72,12 @@ namespace Magic_RDR
             this.textBox.CharWidth = 14;
             this.textBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.textBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.textBox.IsReplaceMode = false;
             this.textBox.Language = FastColoredTextBoxNS.Language.CSharp;
             this.textBox.LeftBracket = '(';
             this.textBox.LeftBracket2 = '{';
             this.textBox.Location = new System.Drawing.Point(0, 49);
-            this.textBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBox.Margin = new System.Windows.Forms.Padding(5);
             this.textBox.Name = "textBox";
             this.textBox.Paddings = new System.Windows.Forms.Padding(0);
             this.textBox.RightBracket = ')';
@@ -97,7 +97,8 @@ namespace Magic_RDR
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportButton,
-            this.btnShowRawDisassembly});
+            this.btnShowRawDisassembly,
+            this.btnShowNativeNamespaces});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
@@ -114,6 +115,15 @@ namespace Magic_RDR
             this.exportButton.Size = new System.Drawing.Size(104, 38);
             this.exportButton.Text = "Export";
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // btnShowRawDisassembly
+            // 
+            this.btnShowRawDisassembly.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnShowRawDisassembly.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowRawDisassembly.Name = "btnShowRawDisassembly";
+            this.btnShowRawDisassembly.Size = new System.Drawing.Size(232, 38);
+            this.btnShowRawDisassembly.Text = "Show Raw Disassembly";
+            this.btnShowRawDisassembly.Click += new System.EventHandler(this.btnShowRawDisassembly_Click);
             // 
             // statusStrip1
             // 
@@ -149,15 +159,15 @@ namespace Magic_RDR
             this.zoomLabel.Text = "Zoom";
             this.zoomLabel.Click += new System.EventHandler(this.zoomLabel_Click);
             // 
-            // btnShowRawDisassembly
+            // btnShowNativeNamespaces
             // 
-            this.btnShowRawDisassembly.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnShowRawDisassembly.Image = ((System.Drawing.Image)(resources.GetObject("btnShowRawDisassembly.Image")));
-            this.btnShowRawDisassembly.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnShowRawDisassembly.Name = "btnShowRawDisassembly";
-            this.btnShowRawDisassembly.Size = new System.Drawing.Size(232, 38);
-            this.btnShowRawDisassembly.Text = "Show Raw Disassembly";
-            this.btnShowRawDisassembly.Click += new System.EventHandler(this.btnShowRawDisassembly_Click);
+            this.btnShowNativeNamespaces.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnShowNativeNamespaces.Image = ((System.Drawing.Image)(resources.GetObject("btnShowNativeNamespaces.Image")));
+            this.btnShowNativeNamespaces.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowNativeNamespaces.Name = "btnShowNativeNamespaces";
+            this.btnShowNativeNamespaces.Size = new System.Drawing.Size(257, 38);
+            this.btnShowNativeNamespaces.Text = "Show Native Namespaces";
+            this.btnShowNativeNamespaces.Click += new System.EventHandler(this.btnShowNativeNamespaces_Click);
             // 
             // ScriptViewerForm
             // 
@@ -168,7 +178,7 @@ namespace Magic_RDR
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.textBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "ScriptViewerForm";
             this.Text = "MagicRDR - Script Viewer";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -193,5 +203,6 @@ namespace Magic_RDR
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel zoomLabel;
 		private System.Windows.Forms.ToolStripButton btnShowRawDisassembly;
+		private System.Windows.Forms.ToolStripButton btnShowNativeNamespaces;
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Linq;
@@ -7,8 +8,10 @@ namespace Magic_RDR
 	class NativeHashDB
 	{
 		const string _NativesPath = "natives.json";
-		static Dictionary<uint, string> _db = new Dictionary<uint, string>();
+		static Dictionary<uint, Tuple<string, string>> _db = new Dictionary<uint, Tuple<string, string>>();
 		static bool _inited = false;
+
+		public static bool ShowNativeNamespace = false;
 
 		static void LoadNatives()
 		{
@@ -18,9 +21,10 @@ namespace Magic_RDR
 			string jsonContent = File.ReadAllText(_NativesPath);
 			JObject jsonObject = JObject.Parse(jsonContent);
 
-			_db = new Dictionary<uint, string>();
+			_db = new Dictionary<uint, Tuple<string, string>>();
 			foreach (var ns in jsonObject.Properties())
 			{
+				var ns_name = ns.Name;
 				JObject systemObject = (JObject)ns.Value;
 
 				foreach (var item in systemObject.Properties())
@@ -38,8 +42,7 @@ namespace Magic_RDR
 					{
 						uint key_int = 0;
 						if (uint.TryParse(key, System.Globalization.NumberStyles.HexNumber, null, out key_int))
-							_db[key_int] = name.ToUpper();
-
+							_db[key_int] = new Tuple<string, string>(ns_name.ToUpper(), name.ToUpper());
 					}
 				}
 			}
@@ -52,7 +55,11 @@ namespace Magic_RDR
 				LoadNatives();
 
 			if (_db.ContainsKey(hash))
-				return _db[hash];
+			{
+				if (ShowNativeNamespace)
+					return $"{_db[hash].Item1}::{_db[hash].Item2}";
+				return _db[hash].Item2;
+			}
 
 			return $"UNK_0x{hash:X8}";
 		}

@@ -132,7 +132,7 @@ namespace Magic_RDR
 				name = name.Replace("var static", "static var");
 			working = "(" + Params.GetPDec() + ")";
 
-			return name + working + " //Position: 0x" + Location.ToString("X");
+			return name + working + $" // Position: 0x{MaxLocation:X} / {MaxLocation}";
 		}
 
 		public string GetFrameVarName(uint index) //Determines if a frame variable is a parameter or a variable and returns its name
@@ -1249,27 +1249,13 @@ namespace Magic_RDR
 				case Instruction.fPush_6:
 				case Instruction.fPush_7: Stack.Push(Instructions[Offset].GetImmFloatPush); break;
 
-				case Instruction.MakeVector:
-					{
-						string z, y, x;
-						z = Stack.PopLit();
-						y = Stack.PopLit();
-						x = Stack.PopLit();
-						Stack.Push($"Vec3({x}, {y}, {z})", Stack.DataType.Vector3);
-						break;
-					}
+				case Instruction.MakeVector: Stack.Op_MakeVector(); break;
 				case Instruction.StoreVector:
-				case Instruction.StoreRef:
-					{
-						string pointer, value;
-						pointer = Stack.PopPointerRef();
-						value = Stack.PopLit();
-						WriteLine(Stack.setcheck(pointer, value));
-						break;
-					}
+				case Instruction.StoreRef: WriteLine(Stack.Op_StoreVectorOrRef()); break;
 				case Instruction.LoadRef: break; // TODO: what does LoadRef actualy do?
 
 				default: WriteLine($"{Instructions[Offset].Instruction}();"); break;
+
 				HandleJump:
 				CheckConditional();
 				break;
@@ -1488,10 +1474,6 @@ namespace Magic_RDR
 				try
 				{
 					var ins = Instructions[i];
-					if (ins.IsReturnInstruction)
-					{
-						break;
-					}
 
 					switch (ins.Instruction)
 					{

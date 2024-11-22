@@ -278,7 +278,7 @@ namespace Magic_RDR
 			throw new Exception("Not a pointer item recieved");
 		}
 
-		public string PopPointerRef()
+		string PopPointerRef()
 		{
 			StackValue val = Pop();
 			if (val.ItemType == StackValue.Type.Pointer)
@@ -804,6 +804,24 @@ namespace Magic_RDR
 			s1 = PopLit();
 			s2 = PopLit();
 			Push(s2 + " ^ " + s1, DataType.Int);
+		}
+
+		public void Op_MakeVector()
+		{
+			// Reverse order to PopVector?
+			string z, y, x;
+			z = PopLit();
+			y = PopLit();
+			x = PopLit();
+			Push($"Vector({x}, {y}, {z})", Stack.DataType.Vector3);
+		}
+
+		public string Op_StoreVectorOrRef()
+		{
+			string pointer, value;
+			pointer = PopPointerRef();
+			value = PopLit();
+			return setcheck(pointer, value);
 		}
 
 		string PopStructAccess()

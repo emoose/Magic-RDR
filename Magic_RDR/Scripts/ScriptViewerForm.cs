@@ -29,9 +29,9 @@ namespace Magic_RDR
             _fileEntry = entry.Entry.AsFile;
 
             btnShowRawDisassembly.Checked = ShowRawDisassembly;
+			btnShowNativeNamespaces.Checked = NativeHashDB.ShowNativeNamespace;
 
-
-            ThreadLock = new object();
+			ThreadLock = new object();
             Text = string.Format("MagicRDR - Script Viewer [{0}]", entry.Entry.Name);
             FileName = entry.Entry.Name;
 
@@ -114,9 +114,16 @@ namespace Magic_RDR
             btnShowRawDisassembly.Checked = ShowRawDisassembly;
             InitForm();
         }
-    }
 
-    public class ScriptFile
+		private void btnShowNativeNamespaces_Click(object sender, EventArgs e)
+		{
+			NativeHashDB.ShowNativeNamespace = !NativeHashDB.ShowNativeNamespace;
+			btnShowNativeNamespaces.Checked = NativeHashDB.ShowNativeNamespace;
+			InitForm();
+		}
+	}
+
+	public class ScriptFile
     {
         private IOReader Reader;
         private FileEntry Entry;
