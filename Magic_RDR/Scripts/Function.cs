@@ -38,6 +38,8 @@ namespace Magic_RDR
 		internal bool preDecoded = false;
 		internal bool preDecodeStarted = false;
 
+		internal object _threadLock = new object();
+
 		public Function(ScriptFile Owner, string name, int pcount, int vcount, int rcount, int location, int locmax)
 		{
 			Scriptfile = Owner;
@@ -216,7 +218,7 @@ namespace Magic_RDR
 			if (Instructions == null)
 				return;
 
-			lock (ScriptViewerForm.ThreadLock)
+			lock (_threadLock)
 			{
 				DecodeStarted = true;
 				if (Decoded)
@@ -835,7 +837,13 @@ namespace Magic_RDR
 							AddInstruction(curoff, new HLInstruction(CodeBlock[Offset], GetArray(1 + CodeBlock[Offset + 1]), curoff));
 							break;
 						case 112: //PushArrayP
-							AddInstruction(curoff, new HLInstruction(CodeBlock[Offset], GetArray(5 + CodeBlock[Offset + 1]), curoff));
+							byte[] size = GetArray(4).ToArray();
+							if (AppGlobals.Platform == AppGlobals.PlatformEnum.Switch)
+								Array.Reverse(size);
+
+							Offset -= 4;
+
+							AddInstruction(curoff, new HLInstruction(CodeBlock[Offset], GetArray(4 + BitConverter.ToInt32(size, 0)), curoff));
 							break;
 						case 114:
 						case 115:

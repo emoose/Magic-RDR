@@ -5,6 +5,8 @@ namespace Magic_RDR
 {
 	class NativeParamInfo
 	{
+		static object _threadLock = new object();
+
 		Dictionary<uint, Tuple<Stack.DataType, Stack.DataType[]>> Natives;
 
 		public NativeParamInfo()
@@ -14,7 +16,7 @@ namespace Magic_RDR
 
 		public void UpdateNative(uint hash, Stack.DataType returns, params Stack.DataType[] param)
 		{
-			lock (ScriptViewerForm.ThreadLock)
+			lock (_threadLock)
 			{
 				if (!Natives.ContainsKey(hash))
 				{
